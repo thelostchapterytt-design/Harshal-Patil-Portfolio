@@ -10,6 +10,7 @@ export interface Project {
   highlight: string;
   stats: { label: string; value: string }[];
   featured?: boolean;
+  visible?: boolean;
 }
 
 export interface SkillCategory {
@@ -23,21 +24,21 @@ export const PERSONAL_INFO = {
   shortName: "Harshal Patil",
   handle: "@harshal-patil-dev",
   title: "Java Full Stack Developer",
-  subTitle: "BCA Student & Aspiring Software Engineer",
+  subTitle: "BCA Graduate & Aspiring Software Engineer",
   email: "harsheditz79@gmail.com",
   phone: "+91 9322414106",
   location: "Amalner, Maharashtra, India",
   preferredLocations: ["Pune", "Mumbai", "Bengaluru", "Remote"],
-  status: "Available for Full-time Roles & Internships",
-  noticePeriod: "Immediate Joiner (0 Days)",
+  status: "Open for Full-time Software Engineering Roles",
+  noticePeriod: "Available for Opportunities",
   github: "https://github.com/harshal-patil-dev",
   linkedin: "https://linkedin.com/in/harshal-patil-dev",
-  bio: "Aspiring Java Full Stack Developer currently training at Kiran Academy Pune and pursuing BCA at Pratap College. Strong command over Core & Advanced Java, Spring Boot, Spring MVC, Hibernate/JPA, REST APIs, MySQL, and modern React.js frontend development. Passionate about architecting scalable microservices, secure authentication, and seamless user experiences.",
+  bio: "Aspiring Java Full Stack Developer currently undergoing intensive corporate software training at Kiran Academy Pune after graduating BCA from Pratap College with a 7.56 CGPA. Strong command over Core & Advanced Java, Spring Boot, Spring MVC, Hibernate/JPA, REST APIs, MySQL, and modern React.js frontend development. Passionate about architecting scalable microservices, secure authentication, and seamless user experiences.",
   stats: [
     { label: "Projects Completed", value: "6+" },
     { label: "CGPA (BCA)", value: "7.56" },
-    { label: "Certifications", value: "2+" },
-    { label: "Graduation Year", value: "2026" },
+    { label: "Certifications", value: "3+" },
+    { label: "BCA Status", value: "Graduated" },
   ],
 };
 
@@ -45,18 +46,18 @@ export const EDUCATION = [
   {
     institution: "Pratap College, Amalner (KBC NMU, Jalgaon)",
     degree: "Bachelor of Computer Applications (BCA)",
-    period: "2023 - 2026 (Expected)",
+    period: "Completed (3-Year Degree)",
     score: "CGPA: 7.56 / 10",
     description: "Focus on Computer Science fundamentals, Software Engineering, Object-Oriented Programming, Database Management Systems, and Web Technologies.",
-    badge: "Graduating 2026",
+    badge: "BCA Graduate (7.56 CGPA)",
   },
   {
     institution: "Kiran Academy, Pune",
     degree: "Full Stack Java Development Training",
     period: "2024 - Present",
-    score: "Intensive Professional Training",
+    score: "Intensive Professional Finishing School",
     description: "Hands-on industrial training in Core Java, Advanced Java, Spring Boot, Spring MVC, Hibernate/JPA, RESTful Web Services, Microservices design, and MySQL database integration.",
-    badge: "Currently Pursuing",
+    badge: "Currently Enrolled (Pune)",
   },
 ];
 
@@ -109,7 +110,7 @@ export const PROJECTS: Project[] = [
     summary: "Layered enterprise employee directory and payroll operations application.",
     description: "Developed an enterprise employee management system leveraging layered software architecture: Controller, Service, Repository, and Entity layers. Features robust CRUD operations, department-based multi-criteria search, session-based login, and Aspect-Oriented Programming (AOP) for cross-cutting security checks and auditing.",
     technologies: ["Java", "Spring Boot", "Spring MVC", "Hibernate / JPA", "MySQL", "JSP", "AOP"],
-    githubUrl: "https://github.com/harshal-patil-dev/Travely-Management-System.git", // Fallback to profile repo
+    githubUrl: "https://github.com/harshal-patil-dev/SyncWork-Employee-Management-System",
     highlight: "Layered Controller-Service-DAO + AOP Security",
     featured: true,
     stats: [
@@ -242,6 +243,6 @@ export const FAQ_ITEMS = [
   },
   {
     question: "What is your educational background and professional training?",
-    answer: "I am pursuing a Bachelor of Computer Applications (BCA) at Pratap College, Amalner (7.56 CGPA, graduating 2026), alongside intensive, disciplined Java Full-Stack training at The Kiran Academy, Pune.",
+    answer: "I am a BCA Graduate from Pratap College, Amalner (KBC NMU) with a 7.56 CGPA, and am currently undergoing rigorous, full-time enterprise Java Full-Stack training at The Kiran Academy, Pune.",
   },
 ];

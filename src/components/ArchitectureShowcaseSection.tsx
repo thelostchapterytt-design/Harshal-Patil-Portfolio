@@ -5,10 +5,12 @@ import { PERSONAL_INFO } from "../data/portfolioData";
 
 interface ArchitectureShowcaseSectionProps {
   onOpenContact: () => void;
+  onOpenInterviewModal?: () => void;
 }
 
 export default function ArchitectureShowcaseSection({
   onOpenContact,
+  onOpenInterviewModal,
 }: ArchitectureShowcaseSectionProps) {
   return (
     <section id="architecture" className="bg-black py-16 sm:py-24 md:py-28 px-4 sm:px-6 md:px-12 relative overflow-hidden border-t border-white/5">
@@ -96,7 +98,11 @@ export default function ArchitectureShowcaseSection({
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
                 <button
-                  onClick={onOpenContact}
+                  onClick={() => {
+                    if (onOpenInterviewModal) {
+                      onOpenInterviewModal();
+                    }
+                  }}
                   className="w-full sm:w-auto bg-white text-black px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm font-bold shadow-[0_0_25px_rgba(255,255,255,0.15)] hover:bg-[#eaeaea] hover:-translate-y-0.5 transition-all duration-300 cursor-pointer text-center"
                 >
                   Schedule an Interview

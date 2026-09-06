@@ -38,7 +38,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10.5);
     doc.setTextColor(60, 60, 60);
-    doc.text("JAVA FULL STACK DEVELOPER | BCA STUDENT", pageWidth / 2, y, { align: "center" });
+    doc.text("JAVA FULL STACK DEVELOPER | BCA GRADUATE", pageWidth / 2, y, { align: "center" });
 
     // Header: Contact Info Line
     y += 15;
@@ -77,7 +77,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
     doc.setFontSize(9.2);
     doc.setTextColor(50, 50, 50);
     const summary =
-      "BCA student and aspiring Java Full Stack Developer currently training at Kiran Academy Pune. Knowledge of Core Java, Advanced Java, Spring MVC, Spring Boot, Hibernate/JPA, REST APIs, and SQL. Currently learning React.js, HTML, CSS, and JavaScript with practical experience in CRUD, authentication, and database integration.";
+      "BCA Graduate and aspiring Java Full Stack Developer currently undergoing intensive corporate software training at The Kiran Academy, Pune. Strong command of Core Java, Advanced Java, Spring Boot 3, Spring MVC, Hibernate JPA, REST APIs, MySQL, and modern React.js with practical experience in enterprise architecture, JWT security, and Razorpay integration.";
     const splitSummary = doc.splitTextToSize(summary, contentWidth);
     doc.text(splitSummary, margin, y, { lineHeightFactor: 1.35 });
     y += splitSummary.length * 12 + 6;
@@ -163,9 +163,9 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     doc.setTextColor(50, 50, 50);
-    doc.text("•  CGPA: 7.56 / 10", margin, y);
+    doc.text("•  Degree Status: BCA Graduate (Completed)", margin, y);
     y += 11;
-    doc.text("•  Expected Graduation: 2026", margin, y);
+    doc.text("•  Cumulative CGPA: 7.56 / 10", margin, y);
     y += 12;
 
     // 5. ADDITIONAL INFORMATION
@@ -182,11 +182,11 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
 
     doc.setFont("helvetica", "bold");
     doc.setTextColor(20, 20, 20);
-    doc.text("•  Currently Pursuing: ", margin, y);
-    const purW = doc.getTextWidth("•  Currently Pursuing: ");
+    doc.text("•  Professional Training: ", margin, y);
+    const purW = doc.getTextWidth("•  Professional Training: ");
     doc.setFont("helvetica", "normal");
     doc.setTextColor(50, 50, 50);
-    doc.text("Full Stack Java Development – Kiran Academy Pune | Typing – GCC-TBC", margin + purW, y);
+    doc.text("Full Stack Java Development – Kiran Academy Pune (Enrolled) | Typing – GCC-TBC", margin + purW, y);
 
     return doc;
   };
@@ -309,7 +309,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                   HARSHAL SANDIP PATIL
                 </h1>
                 <p className="text-xs sm:text-[14px] font-bold text-gray-800 tracking-wider uppercase mb-2.5">
-                  JAVA FULL STACK DEVELOPER | BCA STUDENT
+                  JAVA FULL STACK DEVELOPER | BCA GRADUATE
                 </p>
                 <p className="text-[11px] sm:text-[12.5px] text-gray-600 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
                   <span>Amalner, Maharashtra</span>
@@ -348,7 +348,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                   PROFESSIONAL SUMMARY
                 </h2>
                 <p className="text-[11.5px] sm:text-[13px] text-gray-800 leading-relaxed text-justify">
-                  BCA student and aspiring Java Full Stack Developer currently training at Kiran Academy Pune. Knowledge of Core Java, Advanced Java, Spring MVC, Spring Boot, Hibernate/JPA, REST APIs, and SQL. Currently learning React.js, HTML, CSS, and JavaScript with practical experience in CRUD, authentication, and database integration.
+                  BCA Graduate and aspiring Java Full Stack Developer currently undergoing intensive corporate software training at The Kiran Academy, Pune. Strong command of Core Java, Advanced Java, Spring Boot 3, Spring MVC, Hibernate JPA, REST APIs, MySQL, and modern React.js with practical experience in enterprise architecture, JWT security, and Razorpay integration.
                 </p>
               </div>
 
@@ -424,8 +424,8 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                     Pratap College, Amalner (KBC NMU, Jalgaon)
                   </p>
                   <div className="text-[11px] sm:text-[12.5px] text-gray-800 space-y-0.5 mt-1">
-                    <p>• CGPA: 7.56 / 10</p>
-                    <p>• Expected Graduation: 2026</p>
+                    <p>• Degree Status: BCA Graduate (Completed)</p>
+                    <p>• Cumulative CGPA: 7.56 / 10</p>
                   </div>
                 </div>
               </div>
@@ -440,7 +440,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                     • <span className="font-semibold text-gray-950">Certifications:</span> Generative AI – Oracle (2025) | CCC – NIELIT (2025)
                   </p>
                   <p>
-                    • <span className="font-semibold text-gray-950">Currently Pursuing:</span> Full Stack Java Development – Kiran Academy Pune | Typing – GCC-TBC
+                    • <span className="font-semibold text-gray-950">Professional Training:</span> Full Stack Java Development – Kiran Academy Pune (Enrolled) | Typing – GCC-TBC
                   </p>
                 </div>
               </div>

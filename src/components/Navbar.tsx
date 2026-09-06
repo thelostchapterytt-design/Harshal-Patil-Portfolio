@@ -49,15 +49,12 @@ export default function Navbar({
               <button
                 key={item.id}
                 onClick={() => onNavigate(item.id)}
-                className={`relative px-3.5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`relative px-3.5 py-1.5 rounded-full text-[13px] font-medium transition-all cursor-pointer flex items-center justify-center ${
                   isActive
-                    ? "text-white bg-[#A955F7]/25 border border-[#A955F7]/40 shadow-[0_0_15px_rgba(168,85,247,0.3)] font-semibold"
+                    ? "text-white bg-[#A955F7]/25 border border-[#A955F7]/50 shadow-[0_0_15px_rgba(168,85,247,0.3)] font-semibold"
                     : "text-white/70 hover:text-white hover:bg-white/5 border border-transparent"
                 }`}
               >
-                {isActive && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#A955F7] animate-pulse" />
-                )}
                 <span>{item.label}</span>
               </button>
             );
@@ -129,16 +126,13 @@ export default function Navbar({
                     setIsMenuOpen(false);
                     onNavigate(item.id);
                   }}
-                  className={`text-[14px] font-medium py-2.5 px-3 rounded-lg flex items-center justify-between transition-all cursor-pointer text-left ${
+                  className={`text-[14px] font-medium py-2.5 px-3 rounded-xl flex items-center justify-between transition-all cursor-pointer text-left ${
                     isActive
-                      ? "text-white bg-[#A955F7]/20 border border-[#A955F7]/30"
+                      ? "text-white bg-[#A955F7]/25 border border-[#A955F7]/40 font-semibold"
                       : "text-white/80 hover:bg-white/5 hover:text-[#A955F7]"
                   }`}
                 >
                   <span>{item.label}</span>
-                  {isActive && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#A955F7]" />
-                  )}
                 </button>
               );
             })}
@@ -158,12 +152,12 @@ export default function Navbar({
             <button
               onClick={() => {
                 setIsMenuOpen(false);
-                onOpenContact();
+                onNavigate("contact");
               }}
               className="w-full py-2.5 text-[13px] font-semibold bg-[#A955F7] text-white rounded-xl flex items-center justify-center gap-2 hover:bg-[#9332ea] transition-colors shadow-[0_0_15px_rgba(168,85,247,0.3)] cursor-pointer"
             >
               <Send size={14} />
-              Hire Me / Send Message
+              Let&apos;s Connect / Contact Page
             </button>
             <a
               href={PERSONAL_INFO.github}
@@ -172,7 +166,7 @@ export default function Navbar({
               className="w-full py-2 text-[12.5px] font-medium text-white/60 hover:text-white flex items-center justify-center gap-2 transition-colors"
             >
               <Github size={14} />
-              <span>github.com/theharshal20</span>
+              <span>github.com/harshal-patil-dev</span>
             </a>
           </div>
         </div>

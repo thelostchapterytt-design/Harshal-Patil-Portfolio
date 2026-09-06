@@ -24,7 +24,7 @@ export default function EducationCertificationsSection({ className }: { classNam
       title: "Bachelor of Computer Applications (BCA)",
       subtitle: "Pratap College, Amalner (KBC NMU)",
       metric: "CGPA: 7.56 / 10",
-      year: "2023 - 2026",
+      year: "Completed",
       text: "Comprehensive studies in Object-Oriented Programming, Database Management Systems (DBMS), Data Structures & Algorithms, and Software Engineering methodologies.",
     },
     {
@@ -47,9 +47,9 @@ export default function EducationCertificationsSection({ className }: { classNam
       badge: "Academic Foundation",
       title: "Computer Applications (BCA)",
       subtitle: "Pratap College, Amalner",
-      metric: "Graduating in 2026",
-      year: "2023 - 2026",
-      text: "Demonstrating consistent academic excellence, analytical reasoning, and practical project executions across semester curricula.",
+      metric: "BCA Graduate (7.56 CGPA)",
+      year: "Graduated",
+      text: "Demonstrated consistent academic excellence, analytical reasoning, and practical project executions across semester curricula.",
     },
   ];
 
@@ -151,7 +151,7 @@ export default function EducationCertificationsSection({ className }: { classNam
           </h2>
 
           <p className="text-[15px] text-white/60 leading-[1.7] mb-8 font-normal">
-            Pursuing BCA at Pratap College with a 7.56 CGPA while mastering modern full-stack development through Kiran Academy Pune and Oracle AI certifications.
+            BCA graduate from Pratap College with a 7.56 CGPA, currently mastering enterprise full-stack development through Kiran Academy Pune and Oracle AI credentials.
           </p>
 
           {/* Quick Metrics Badge */}

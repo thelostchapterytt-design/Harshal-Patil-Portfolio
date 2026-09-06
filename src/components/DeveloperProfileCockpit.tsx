@@ -365,7 +365,7 @@ export default function DeveloperProfileCockpit({ onOpenContact }: DeveloperProf
                           <span className="text-xs font-mono text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-2.5 py-1 rounded-md shrink-0">
                             CGPA: 7.56 / 10
                           </span>
-                          <span className="text-xs font-mono text-white/40 shrink-0">2023 - 2026</span>
+                          <span className="text-xs font-mono text-white/40 shrink-0">BCA Graduate</span>
                         </div>
                       </div>
                       <p className="text-xs text-white/50 mt-4 pt-4 border-t border-white/10">

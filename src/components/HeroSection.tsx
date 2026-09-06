@@ -19,7 +19,7 @@ export default function HeroSection({
   onNavigateToProjects,
 }: HeroSectionProps) {
   return (
-    <section id="overview" className="relative mb-12 overflow-hidden pt-[80px] sm:pt-[100px] pb-12 sm:pb-16 px-3 sm:px-6 md:px-8 lg:px-12 bg-black">
+    <section id="overview" className="relative mb-0 overflow-hidden pt-[80px] sm:pt-[100px] pb-6 sm:pb-10 px-3 sm:px-6 md:px-8 lg:px-12 bg-black">
       {/* Background Cosmic Starfield / Video - Fixed Height & Position to eliminate any jumping */}
       <div className="absolute top-0 left-0 right-0 h-[1500px] overflow-hidden pointer-events-none z-0">
         <video
@@ -39,7 +39,7 @@ export default function HeroSection({
       </div>
 
       {/* Radial Gradient overlay for cosmic depth */}
-      <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#A955F7]/20 blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#A955F7]/15 blur-[160px] rounded-full pointer-events-none" />
 
       {/* Center Hero Content */}
       <div className="relative z-10 max-w-[900px] mx-auto text-center mt-[20px] sm:mt-[30px] md:mt-[50px] mb-[40px] sm:mb-[60px] px-2 sm:px-4">
@@ -76,11 +76,11 @@ export default function HeroSection({
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-[14px] xs:text-[15px] sm:text-[17px] md:text-[18px] text-white/70 leading-[1.6] max-w-[680px] mx-auto mb-7 sm:mb-9 font-normal px-2 sm:px-0"
         >
-          Hi, I&apos;m <strong className="text-white font-semibold">Harshal Patil</strong>. BCA student currently learning and training in Java Full Stack Development at Kiran Academy Pune. Building hands-on projects with Core Java, Spring Boot, Hibernate, REST APIs, and React.js.
+          Hi, I&apos;m <strong className="text-white font-semibold">Harshal Patil</strong>. BCA graduate currently training in enterprise Java Full Stack Development at The Kiran Academy, Pune. Building production-grade systems with Core Java, Spring Boot 3, Hibernate JPA, REST APIs, and React.js.
         </motion.p>
 
-        {/* CTA Buttons Row */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 max-w-xs sm:max-w-none mx-auto w-full">
+        {/* CTA Buttons Row - Sleek & Responsive on Mobile */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-2.5 sm:gap-4 max-w-[280px] xs:max-w-xs sm:max-w-none mx-auto w-full">
           <motion.button
             onClick={() => {
               if (onNavigateToProjects) {
@@ -94,10 +94,10 @@ export default function HeroSection({
             transition={{ delay: 0.3 }}
             whileHover={{ scale: 1.02, boxShadow: "0 10px 30px -10px rgba(168, 85, 247, 0.6)" }}
             whileTap={{ scale: 0.98 }}
-            className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 bg-[#A955F7] text-white text-sm sm:text-base font-bold rounded-full flex items-center justify-center gap-2.5 sm:gap-3 transition-all cursor-pointer shadow-[0_0_25px_rgba(168,85,247,0.3)]"
+            className="w-full sm:w-auto h-11 sm:h-12 md:h-13 px-4 sm:px-7 md:px-8 bg-[#A955F7] text-white text-xs sm:text-sm md:text-base font-semibold rounded-full flex items-center justify-center gap-2 sm:gap-2.5 transition-all cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.3)]"
           >
             <span>Explore My Projects</span>
-            <ArrowRight size={17} />
+            <ArrowRight size={15} className="shrink-0" />
           </motion.button>
 
           <motion.a
@@ -109,9 +109,9 @@ export default function HeroSection({
             transition={{ delay: 0.4 }}
             whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
             whileTap={{ scale: 0.98 }}
-            className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 bg-white/5 text-white text-sm sm:text-base font-semibold border border-white/20 rounded-full backdrop-blur-md flex items-center justify-center gap-2.5 sm:gap-3 transition-all hover:bg-white/10"
+            className="w-full sm:w-auto h-11 sm:h-12 md:h-13 px-4 sm:px-7 md:px-8 bg-white/5 text-white text-xs sm:text-sm md:text-base font-medium border border-white/15 rounded-full backdrop-blur-md flex items-center justify-center gap-2 sm:gap-2.5 transition-all hover:bg-white/10"
           >
-            <Github size={17} />
+            <Github size={15} className="shrink-0" />
             <span>GitHub Profile</span>
           </motion.a>
         </div>

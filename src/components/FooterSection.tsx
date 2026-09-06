@@ -27,9 +27,14 @@ interface FooterSectionProps {
 interface JourneyNode {
   id: number;
   step: string;
-  shortLabel: string;
-  x: number; // SVG X on horizon arc
-  pillW: number; // SVG pill badge width
+  badge: string;
+  title: string;
+  institution: string;
+  timeline: string;
+  description: string;
+  skills: string[];
+  status: string;
+  xPercent: number; // 0 to 100
   icon: React.ElementType;
 }
 
@@ -40,336 +45,378 @@ export default function FooterSection({
   showJourney = true,
 }: FooterSectionProps) {
   const [activeNode, setActiveNode] = useState<number>(4);
+  const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(true);
 
   const JOURNEY_NODES: JourneyNode[] = [
     {
       id: 0,
       step: "01",
-      shortLabel: "01 • Academic Foundation (BCA)",
-      x: 210,
-      pillW: 220,
+      badge: "Academic Foundation",
+      title: "Bachelor of Computer Applications (BCA)",
+      institution: "Pratap College, Amalner (KBC NMU)",
+      timeline: "Graduated (Completed)",
+      description:
+        "Building core computer science fundamentals, Object-Oriented Programming (Java & C++), Relational Database Management Systems (SQL), Data Structures, and Software Engineering methodologies.",
+      skills: ["Core Java", "OOPs", "Data Structures", "MySQL / SQL", "Web Basics", "Software Eng."],
+      status: "CGPA: 7.56 / 10 • Completed",
+      xPercent: 9,
       icon: GraduationCap,
     },
     {
       id: 1,
       step: "02",
-      shortLabel: "02 • Enterprise Java (Pune)",
-      x: 450,
-      pillW: 215,
+      badge: "Enterprise Java",
+      title: "Full Stack Java Development Training",
+      institution: "Kiran Academy, Pune",
+      timeline: "2024 - Present",
+      description:
+        "Intensive professional engineering training focused on enterprise backend systems using Java, Spring Boot 3, Hibernate JPA, RESTful microservice architectures, Postman API testing, and Maven.",
+      skills: ["Spring Boot 3", "Hibernate / JPA", "RESTful APIs", "Spring MVC", "Postman", "Maven"],
+      status: "Professional Training",
+      xPercent: 29,
       icon: Code2,
     },
     {
       id: 2,
       step: "03",
-      shortLabel: "03 • Production Systems",
-      x: 700,
-      pillW: 195,
+      badge: "Production Systems",
+      title: "Full-Stack Project Development",
+      institution: "Flagship Projects: Travely & SyncWork",
+      timeline: "2025",
+      description:
+        "Engineered end-to-end full-stack applications with JWT authentication, Razorpay online payment integration, multi-criteria filtering, department-level CRUD operations, and AOP security auditing.",
+      skills: ["Travely (MERN)", "SyncWork (Spring Boot)", "JWT Security", "Razorpay", "Tailwind CSS"],
+      status: "Production Deployed",
+      xPercent: 50,
       icon: Layers,
     },
     {
       id: 3,
       step: "04",
-      shortLabel: "04 • Core Engineering Hubs",
-      x: 950,
-      pillW: 220,
+      badge: "Engineering Hubs",
+      title: "Architecture & Code Standards",
+      institution: "Clean Architecture & SOLID Principles",
+      timeline: "2025",
+      description:
+        "Adhering to enterprise layered design (Controller -> Service -> Repository), DTO abstraction layers, global exception handling with ProblemDetails, and high-performance responsive React frontends.",
+      skills: ["Layered Architecture", "DTO Pattern", "Global Handler", "SOLID Principles", "Clean Code"],
+      status: "High Standards",
+      xPercent: 71,
       icon: Compass,
     },
     {
       id: 4,
       step: "05",
-      shortLabel: "05 • Full-Stack Engineer",
-      x: 1190,
-      pillW: 205,
+      badge: "Software Engineer",
+      title: "Java Full Stack Developer",
+      institution: "Open to Full-Stack Opportunities",
+      timeline: "2026 & Beyond",
+      description:
+        "Actively seeking full-time Software Engineer / Java Full Stack Developer roles in Pune, Mumbai, Bengaluru, or Remote. Ready to design, build, and deploy production-grade software.",
+      skills: ["Java Backend", "Spring Boot", "React.js", "MySQL", "Git / GitHub", "REST APIs"],
+      status: "Open for Opportunities",
+      xPercent: 91,
       icon: Briefcase,
     },
   ];
 
-  // Auto-cycle gently through active nodes
+  // Auto-cycle through active nodes if not paused
   useEffect(() => {
+    if (!isAutoPlaying) return;
     const timer = setInterval(() => {
       setActiveNode((prev) => (prev + 1) % JOURNEY_NODES.length);
     }, 4500);
     return () => clearInterval(timer);
-  }, [JOURNEY_NODES.length]);
-
-  // Sparkles on the celestial horizon
-  const sparkles = Array.from({ length: 45 }).map((_, i) => {
-    const angle = (Math.PI / 180) * (180 + (i * 180) / 45);
-    const rx = 870 + ((i * 37) % 25 - 12);
-    const ry = 215 + ((i * 19) % 25 - 12);
-    return {
-      cx: 700 + rx * Math.cos(angle),
-      cy: 450 + ry * Math.sin(angle),
-      r: i % 3 === 0 ? 1.8 : 0.9,
-      opacity: 0.3 + (i % 5) * 0.12,
-    };
-  });
+  }, [isAutoPlaying, JOURNEY_NODES.length]);
 
   return (
     <footer className="bg-black text-[#AAA] font-sans overflow-hidden antialiased">
-      {/* SECTION 1: CINEMATIC CELESTIAL PLANET HORIZON ARC (Only rendered on Home page) */}
+      {/* SECTION 1: CINEMATIC CELESTIAL PLANET HORIZON ARC (Tablet & Laptop) */}
       {showJourney && (
-        <div className="hidden md:block relative w-full bg-black pt-16 md:pt-24 pb-10 md:pb-14 px-4 md:px-12 border-t border-white/5 overflow-hidden select-none">
-        {/* Deep Space Background Atmosphere */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[350px] sm:w-[600px] md:w-[800px] h-[300px] sm:h-[450px] md:h-[500px] bg-[#A955F7]/12 blur-[120px] sm:blur-[160px] rounded-full pointer-events-none" />
-        <div className="absolute top-1/4 left-1/4 w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-blue-600/5 blur-[100px] sm:blur-[140px] rounded-full pointer-events-none" />
+        <section
+          id="career-journey"
+          className="hidden md:block relative w-full bg-black pt-28 md:pt-32 pb-16 md:pb-20 px-4 md:px-8 lg:px-12 border-t border-white/5 overflow-hidden select-none scroll-mt-28"
+        >
+          {/* Deep Space Atmosphere Ambient Glows */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] lg:w-[1000px] h-[450px] bg-[#A955F7]/14 blur-[160px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/3 left-1/4 w-[350px] lg:w-[500px] h-[350px] bg-blue-600/10 blur-[140px] rounded-full pointer-events-none" />
 
-        <div className="max-w-[1350px] mx-auto relative z-10">
-          {/* Header */}
-          <header className="mb-8 sm:mb-12 text-center px-2">
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="text-xs text-[#A955F7] font-mono font-bold">05.</span>
-              <span className="text-white/20">&mdash;</span>
-              <span className="text-xs text-[#A955F7] font-mono tracking-[2px] uppercase font-bold">
-                Career Journey &amp; Milestones
-              </span>
-            </div>
-            <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.15] tracking-tight mb-3">
-              Engineering Journey &amp; Technical Horizon
-            </h2>
-            <p className="text-xs sm:text-sm md:text-base text-white/50 font-normal max-w-[660px] mx-auto leading-relaxed">
-              From foundational computer science in Amalner to intensive enterprise Java in Pune, building resilient full-stack web architectures.
-            </p>
-          </header>
+          <div className="max-w-[1300px] mx-auto relative z-10">
+            {/* Header matching other sections */}
+            <header className="mb-10 lg:mb-14 text-center px-2">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="text-xs text-[#A955F7] font-mono font-bold">05.</span>
+                <span className="text-white/20">&mdash;</span>
+                <span className="text-xs text-[#A955F7] font-mono tracking-[2px] uppercase font-bold">
+                  Career Journey &amp; Milestones
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight mb-3">
+                Engineering Journey &amp; Technical Horizon
+              </h2>
+              <p className="text-sm md:text-base text-white/60 font-normal max-w-[680px] mx-auto leading-relaxed">
+                From foundational computer science in Amalner to intensive enterprise Java in Pune, building scalable full-stack web architectures.
+              </p>
+            </header>
 
-          {/* CINEMATIC PLANET ARC SVG (Clean celestial arc with real atmospheric glow) */}
-          <div className="relative w-full aspect-[1400/450] max-w-[1350px] mx-auto overflow-hidden">
-            {/* Top Fade Gradient for seamless blend */}
-            <div className="absolute inset-x-0 top-0 h-12 sm:h-20 bg-gradient-to-b from-black via-black/80 to-transparent z-20 pointer-events-none" />
+            {/* CELESTIAL HORIZON ARC CANVAS STAGE (Aadha Gola jesa pehle tha bilkul vesa) */}
+            <div className="relative w-full max-w-[1240px] mx-auto h-[260px] md:h-[300px] lg:h-[340px] overflow-hidden rounded-2xl bg-gradient-to-b from-transparent via-[#0d0718]/40 to-[#070311]/80 border border-white/5">
+              {/* Celestial Arc SVG Planet Horizon */}
+              <svg
+                viewBox="0 0 1200 340"
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                preserveAspectRatio="none"
+              >
+                <defs>
+                  {/* Planet body fill gradient */}
+                  <radialGradient id="planetDiscGrad" cx="50%" cy="100%" r="100%">
+                    <stop offset="0%" stopColor="#C084FC" stopOpacity="0.8" />
+                    <stop offset="25%" stopColor="#7E22CE" stopOpacity="0.75" />
+                    <stop offset="55%" stopColor="#240B47" stopOpacity="0.95" />
+                    <stop offset="85%" stopColor="#0a0314" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#000000" stopOpacity="1" />
+                  </radialGradient>
 
-            <svg
-              viewBox="0 0 1400 450"
-              className="w-full h-full"
-              preserveAspectRatio="xMidYMax meet"
-            >
-              <defs>
-                {/* Celestial Planet Body Radial Gradient */}
-                <radialGradient id="planetGradV2" cx="50%" cy="100%" r="100%">
-                  <stop offset="0%" stopColor="#C084FC" stopOpacity="0.9" />
-                  <stop offset="25%" stopColor="#7E22CE" stopOpacity="0.85" />
-                  <stop offset="55%" stopColor="#2e1064" stopOpacity="0.95" />
-                  <stop offset="90%" stopColor="#0a0515" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#000000" stopOpacity="1" />
-                </radialGradient>
+                  {/* Horizon line glow */}
+                  <linearGradient id="horizonGlowLine" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#6366F1" stopOpacity="0.2" />
+                    <stop offset="20%" stopColor="#A955F7" stopOpacity="0.9" />
+                    <stop offset="50%" stopColor="#FFFFFF" stopOpacity="1" />
+                    <stop offset="80%" stopColor="#A955F7" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#6366F1" stopOpacity="0.2" />
+                  </linearGradient>
 
-                {/* Atmospheric Rim Glow Filter */}
-                <filter id="celestialGlow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="8" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
+                  <filter id="coronaBlur" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="10" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
 
-                <filter id="pinGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="6" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
+                {/* Starry Dust on Celestial Rim */}
+                {Array.from({ length: 32 }).map((_, idx) => {
+                  const angle = (Math.PI / 180) * (180 + (idx * 180) / 32);
+                  const cx = 600 + 620 * Math.cos(angle);
+                  const cy = 340 + 175 * Math.sin(angle);
+                  return (
+                    <circle
+                      key={idx}
+                      cx={cx}
+                      cy={cy}
+                      r={idx % 2 === 0 ? 1.5 : 1}
+                      fill="#E9D5FF"
+                      opacity={0.35 + (idx % 4) * 0.15}
+                    />
+                  );
+                })}
 
-                {/* SVG Milestone Pill Glow Filter */}
-                <filter id="badgeGlow" x="-30%" y="-30%" width="160%" height="160%">
-                  <feGaussianBlur stdDeviation="5" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-
-                {/* Linear gradient for horizon path line */}
-                <linearGradient id="horizonStrokeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#6366f1" stopOpacity="0.3" />
-                  <stop offset="20%" stopColor="#A955F7" stopOpacity="0.9" />
-                  <stop offset="50%" stopColor="#E9D5FF" stopOpacity="1" />
-                  <stop offset="80%" stopColor="#A955F7" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#6366f1" stopOpacity="0.3" />
-                </linearGradient>
-
-                {/* Inner horizon glow */}
-                <linearGradient id="atmosphereGaze" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#A955F7" stopOpacity="0.45" />
-                  <stop offset="60%" stopColor="#7E22CE" stopOpacity="0.1" />
-                  <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-
-              {/* Star sparkles along horizon */}
-              {sparkles.map((s, idx) => (
-                <circle
-                  key={idx}
-                  cx={s.cx}
-                  cy={s.cy}
-                  r={s.r}
-                  fill="#E9D5FF"
-                  opacity={s.opacity}
+                {/* Luminous Planet Disc Body */}
+                <ellipse
+                  cx="600"
+                  cy="340"
+                  rx="600"
+                  ry="175"
+                  fill="url(#planetDiscGrad)"
                 />
-              ))}
 
-              {/* Soft Wide Horizon Nebula Fog */}
-              <ellipse
-                cx="700"
-                cy="450"
-                rx="820"
-                ry="240"
-                fill="url(#atmosphereGaze)"
-                className="opacity-70"
-              />
+                {/* Soft Atmospheric Corona Ring */}
+                <path
+                  d="M -50 340 A 650 175 0 0 1 1250 340"
+                  fill="none"
+                  stroke="#C084FC"
+                  strokeWidth="16"
+                  opacity="0.3"
+                  filter="url(#coronaBlur)"
+                />
 
-              {/* HUGE CELESTIAL PLANET DISC (Aadha Gola - Lower Half Extends Off Canvas) */}
-              <ellipse
-                cx="700"
-                cy="450"
-                rx="800"
-                ry="220"
-                fill="url(#planetGradV2)"
-                className="transition-all duration-700"
-              />
+                {/* Neon Atmospheric Horizon Rim */}
+                <path
+                  d="M -50 340 A 650 175 0 0 1 1250 340"
+                  fill="none"
+                  stroke="url(#horizonGlowLine)"
+                  strokeWidth="3"
+                  className="opacity-95"
+                />
+              </svg>
 
-              {/* Atmosphere Corona Ring 1 (Widest Soft Glow) */}
-              <path
-                d="M -100 450 A 800 220 0 0 1 1500 450"
-                fill="none"
-                stroke="#C084FC"
-                strokeWidth="18"
-                opacity="0.25"
-                filter="url(#celestialGlow)"
-              />
-
-              {/* Atmosphere Corona Ring 2 (Medium Crisp Glow) */}
-              <path
-                d="M -100 450 A 800 220 0 0 1 1500 450"
-                fill="none"
-                stroke="#E9D5FF"
-                strokeWidth="5"
-                opacity="0.6"
-                filter="url(#celestialGlow)"
-              />
-
-              {/* Razor-Sharp Atmospheric Horizon Rim Edge */}
-              <path
-                d="M -100 450 A 800 220 0 0 1 1500 450"
-                fill="none"
-                stroke="url(#horizonStrokeGrad)"
-                strokeWidth="2.5"
-                className="opacity-95"
-              />
-
-              {/* Orbiting Cosmic Particle / Satellite Pulsing along the Arc */}
-              <motion.circle
-                r="3.5"
-                fill="#FFFFFF"
-                filter="url(#pinGlow)"
-                animate={{
-                  cx: [210, 450, 700, 950, 1190, 950, 700, 450, 210],
-                  cy: [276, 241, 230, 241, 276, 241, 230, 241, 276],
-                }}
-                transition={{
-                  duration: 14,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-
-              {/* JOURNEY MILESTONE PINS & EMBEDDED BADGES (100% Vector locked for Tablet & Laptop) */}
+              {/* 5 CRISP, PROPORTIONATELY POSITIONED MILESTONE NODES (As you loved before) */}
               {JOURNEY_NODES.map((node, i) => {
                 const isActive = activeNode === i;
-                const normX = (node.x - 700) / 800;
-                const arcY = 450 - 220 * Math.sqrt(Math.max(0, 1 - normX * normX));
-                const badgeY = arcY - 56;
+                const IconComponent = node.icon;
 
                 return (
-                  <g
+                  <div
                     key={node.id}
-                    onClick={() => setActiveNode(i)}
-                    className="cursor-pointer group"
+                    onClick={() => {
+                      setActiveNode(i);
+                      setIsAutoPlaying(false);
+                    }}
+                    style={{ left: `${node.xPercent}%` }}
+                    className="absolute -translate-x-1/2 top-4 bottom-4 flex flex-col items-center justify-between cursor-pointer group z-20"
                   >
-                    {/* Vertical Guiding Beam from Arc Horizon up to Badge */}
-                    <line
-                      x1={node.x}
-                      y1={arcY}
-                      x2={node.x}
-                      y2={badgeY + 16}
-                      stroke={isActive ? "#A955F7" : "rgba(255,255,255,0.2)"}
-                      strokeWidth={isActive ? 2 : 1}
-                      strokeDasharray={isActive ? "none" : "3 3"}
-                      className="transition-all duration-300"
-                    />
-
-                    {/* Outer Glow Halo on Active Pin */}
-                    {isActive && (
-                      <circle
-                        cx={node.x}
-                        cy={arcY}
-                        r="18"
-                        fill="#A955F7"
-                        opacity="0.3"
-                        filter="url(#pinGlow)"
-                        className="animate-ping"
-                      />
-                    )}
-
-                    {/* Pin Base Circle on the Horizon Arc */}
-                    <circle
-                      cx={node.x}
-                      cy={arcY}
-                      r={isActive ? 7.5 : 5}
-                      fill={isActive ? "#A955F7" : "#0A0A0E"}
-                      stroke={isActive ? "#FFFFFF" : "rgba(255,255,255,0.5)"}
-                      strokeWidth={isActive ? 2.5 : 1.5}
-                      filter="url(#pinGlow)"
-                      className="transition-all duration-300 group-hover:scale-125"
-                    />
-
-                    {/* Integrated SVG Milestone Badge (Scales proportionally on Tablet & Laptop without clipping) */}
-                    <g transform={`translate(${node.x}, ${badgeY})`}>
-                      {/* Active Ambient Glow Halo */}
-                      {isActive && (
-                        <rect
-                          x={-node.pillW / 2 - 4}
-                          y={-18}
-                          width={node.pillW + 8}
-                          height={36}
-                          rx={18}
-                          fill="#A955F7"
-                          opacity={0.3}
-                          filter="url(#badgeGlow)"
-                        />
-                      )}
-
-                      {/* Pill Container */}
-                      <rect
-                        x={-node.pillW / 2}
-                        y={-15}
-                        width={node.pillW}
-                        height={30}
-                        rx={15}
-                        fill="#0A0A0F"
-                        stroke={isActive ? "#A955F7" : "rgba(255, 255, 255, 0.12)"}
-                        strokeWidth={isActive ? 1.5 : 1}
-                        className="transition-all duration-300 group-hover:stroke-white/30"
-                      />
-
-                      {/* Pulsing Status Dot */}
-                      <circle
-                        cx={-node.pillW / 2 + 15}
-                        cy={0}
-                        r={3.5}
-                        fill={isActive ? "#34D399" : "rgba(255, 255, 255, 0.35)"}
-                      />
-
-                      {/* Milestone Text Label */}
-                      <text
-                        x={-node.pillW / 2 + 26}
-                        y={4}
-                        fill={isActive ? "#FFFFFF" : "rgba(255, 255, 255, 0.7)"}
-                        fontSize="11"
-                        fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
-                        fontWeight={isActive ? "bold" : "500"}
-                        className="select-none transition-all duration-300 group-hover:fill-white"
+                    {/* TOP BADGE CARD */}
+                    <div
+                      className={`relative flex items-center gap-2 px-3 py-1.5 md:px-3.5 md:py-2 rounded-xl transition-all duration-300 ${
+                        isActive
+                          ? "bg-[#150A26] border-2 border-[#A955F7] shadow-[0_0_25px_rgba(168,85,247,0.5)] scale-105"
+                          : "bg-black/85 border border-white/15 hover:border-white/40 hover:bg-[#120D1D] hover:scale-102"
+                      }`}
+                    >
+                      {/* Step Indicator */}
+                      <span
+                        className={`text-[10px] md:text-xs font-mono font-bold px-1.5 py-0.5 rounded ${
+                          isActive
+                            ? "bg-[#A955F7] text-white"
+                            : "bg-white/10 text-white/70 group-hover:text-white"
+                        }`}
                       >
-                        {node.shortLabel}
-                      </text>
-                    </g>
-                  </g>
+                        {node.step}
+                      </span>
+
+                      {/* Icon */}
+                      <div
+                        className={`w-5 h-5 md:w-6 md:h-6 rounded-lg flex items-center justify-center transition-colors ${
+                          isActive
+                            ? "text-[#C084FC] bg-[#A955F7]/20"
+                            : "text-white/60 group-hover:text-white"
+                        }`}
+                      >
+                        <IconComponent size={14} />
+                      </div>
+
+                      {/* Badge Title */}
+                      <span
+                        className={`text-xs md:text-[13px] font-semibold tracking-tight whitespace-nowrap transition-colors ${
+                          isActive ? "text-white" : "text-white/75 group-hover:text-white"
+                        }`}
+                      >
+                        {node.badge}
+                      </span>
+
+                      {/* Status Dot */}
+                      <span
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          isActive
+                            ? "bg-emerald-400 shadow-[0_0_8px_#34D399] animate-pulse"
+                            : "bg-white/30"
+                        }`}
+                      />
+                    </div>
+
+                    {/* VERTICAL ENERGY BEAM CONNECTING TO HORIZON PIN */}
+                    <div className="flex-1 w-full flex flex-col items-center justify-center my-1 relative">
+                      <div
+                        className={`w-[2px] h-full transition-all duration-300 ${
+                          isActive
+                            ? "bg-gradient-to-b from-[#A955F7] via-[#C084FC] to-white shadow-[0_0_8px_#A955F7]"
+                            : "bg-white/15 group-hover:bg-white/35"
+                        }`}
+                      />
+                    </div>
+
+                    {/* HORIZON PIN ON THE PLANET'S GLOWING RIM */}
+                    <div className="relative flex items-center justify-center">
+                      {isActive && (
+                        <div className="absolute w-8 h-8 rounded-full bg-[#A955F7]/40 animate-ping" />
+                      )}
+                      <div
+                        className={`w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center border-2 transition-transform duration-300 ${
+                          isActive
+                            ? "bg-white border-[#A955F7] shadow-[0_0_15px_#FFFFFF] scale-125"
+                            : "bg-black border-white/50 group-hover:border-white group-hover:scale-110"
+                        }`}
+                      >
+                        <div
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            isActive ? "bg-[#7928CA]" : "bg-white/60"
+                          }`}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
-            </svg>
+            </div>
+
+            {/* ACTIVE MILESTONE DETAILS CARD (Clean, Simple, Premium) */}
+            <div className="mt-8 max-w-[900px] mx-auto bg-[#0b0c10] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-white/5">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-xs font-mono font-bold text-[#A955F7] bg-[#A955F7]/10 border border-[#A955F7]/20 px-2.5 py-1 rounded-md">
+                    Step {JOURNEY_NODES[activeNode].step}
+                  </span>
+                  <span className="text-xs font-mono text-white/50">
+                    {JOURNEY_NODES[activeNode].timeline}
+                  </span>
+                  <span className="text-white/20">&bull;</span>
+                  <span className="text-xs font-mono text-emerald-400">
+                    {JOURNEY_NODES[activeNode].status}
+                  </span>
+                </div>
+
+                {/* Step Switcher Buttons */}
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => {
+                      setIsAutoPlaying(false);
+                      setActiveNode((prev) => (prev === 0 ? JOURNEY_NODES.length - 1 : prev - 1));
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white text-xs font-mono border border-white/10 transition-colors cursor-pointer"
+                  >
+                    &larr; Prev
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsAutoPlaying(false);
+                      setActiveNode((prev) => (prev + 1) % JOURNEY_NODES.length);
+                    }}
+                    className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-white/70 hover:text-white text-xs font-mono border border-white/10 transition-colors cursor-pointer"
+                  >
+                    Next &rarr;
+                  </button>
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <span className="text-[10px] font-mono text-[#A955F7] uppercase tracking-wider font-semibold">
+                  {JOURNEY_NODES[activeNode].badge}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold text-white mt-0.5">
+                  {JOURNEY_NODES[activeNode].title}
+                </h3>
+                <p className="text-xs sm:text-sm text-white/60 mt-0.5">
+                  {JOURNEY_NODES[activeNode].institution}
+                </p>
+              </div>
+
+              <p className="text-xs sm:text-[13.5px] text-white/70 leading-relaxed mb-5 font-normal">
+                {JOURNEY_NODES[activeNode].description}
+              </p>
+
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/5">
+                <div className="flex flex-wrap gap-1.5">
+                  {JOURNEY_NODES[activeNode].skills.map((s, sIdx) => (
+                    <span
+                      key={sIdx}
+                      className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/[0.04] text-white/70 border border-white/5"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+
+                {onNavigate && (
+                  <button
+                    onClick={() => onNavigate("education")}
+                    className="text-xs font-semibold text-white hover:text-[#A955F7] flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <span>View Full Journey &amp; Credentials</span>
+                    <ExternalLink size={13} />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
       )}
 
       {/* SECTION 2: CLEAN, HIGH-END DEVELOPER FOOTER */}
@@ -496,14 +543,14 @@ export default function FooterSection({
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
                 <button
                   onClick={onOpenResume}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer text-center"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#A955F7]/30 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer text-center"
                 >
-                  <Download size={14} />
+                  <Download size={14} className="text-[#A955F7]" />
                   <span>Resume (PDF)</span>
                 </button>
                 <button
                   onClick={onOpenContact}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-[#A955F7] hover:bg-[#9333EA] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg shadow-purple-900/30 text-center"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-[#A955F7] hover:bg-[#9333EA] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_0_15px_rgba(168,85,247,0.35)] text-center"
                 >
                   <Send size={14} />
                   <span>Let&apos;s Connect</span>
@@ -514,9 +561,19 @@ export default function FooterSection({
 
           {/* Clean Bottom Copyright & Status */}
           <div className="mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40 text-center sm:text-left">
-            <p>
-              &copy; {new Date().getFullYear()} Harshal Patil. All rights reserved.
-            </p>
+            <div className="flex items-center gap-3 flex-wrap justify-center sm:justify-start">
+              <p>
+                &copy; {new Date().getFullYear()} Harshal Patil. All rights reserved.
+              </p>
+              <span className="text-white/20">&bull;</span>
+              <button
+                onClick={() => onNavigate("admin")}
+                className="text-white/30 hover:text-[#A955F7] transition-colors cursor-pointer text-[11px] font-mono flex items-center gap-1"
+                title="Admin Console"
+              >
+                <span>Admin Console</span>
+              </button>
+            </div>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-white/60 font-mono text-[11px]">

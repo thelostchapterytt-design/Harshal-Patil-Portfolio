@@ -9,19 +9,22 @@ import FAQSection from "./components/FAQSection";
 import FooterSection from "./components/FooterSection";
 import ResumeModal from "./components/ResumeModal";
 import ContactModal from "./components/ContactModal";
+import InterviewScheduleModal from "./components/InterviewScheduleModal";
 
 // Dedicated Deep-Dive Pages
 import ProjectsPage from "./pages/ProjectsPage";
 import SkillsPage from "./pages/SkillsPage";
 import EducationPage from "./pages/EducationPage";
 import ContactPage from "./pages/ContactPage";
+import AdminPage from "./pages/AdminPage";
 
-type PageTab = "home" | "projects" | "skills" | "education" | "contact";
+type PageTab = "home" | "projects" | "skills" | "education" | "contact" | "admin";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<PageTab>(() => {
     if (typeof window !== "undefined") {
       const hash = window.location.hash.toLowerCase();
+      if (hash.includes("admin")) return "admin";
       if (hash.includes("project")) return "projects";
       if (hash.includes("skill")) return "skills";
       if (hash.includes("education")) return "education";
@@ -32,12 +35,15 @@ export default function App() {
 
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isInterviewModalOpen, setIsInterviewModalOpen] = useState(false);
 
   // Sync state with browser hash navigation (Back/Forward buttons & direct link entries)
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.toLowerCase();
-      if (hash.includes("project")) {
+      if (hash.includes("admin")) {
+        setCurrentPage("admin");
+      } else if (hash.includes("project")) {
         setCurrentPage("projects");
       } else if (hash.includes("skill")) {
         setCurrentPage("skills");
@@ -65,6 +71,7 @@ export default function App() {
       skills: "#skills",
       education: "#education",
       contact: "#hire",
+      admin: "#admin",
     };
 
     if (window.location.hash !== hashMap[target]) {
@@ -75,13 +82,33 @@ export default function App() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white font-['Inter',_sans-serif] selection:bg-[#A955F7]/30 selection:text-white overflow-x-hidden relative flex flex-col justify-between">
+    <main className="min-h-screen bg-black text-white font-sans selection:bg-[#A955F7]/30 selection:text-white overflow-x-hidden relative flex flex-col justify-between">
+      {/* Global Background Layer: Original Cosmic Depth for Home, Deep Obsidian for other pages */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className={`absolute inset-0 bg-dot-matrix ${currentPage === "home" ? "opacity-25" : "opacity-15"}`} />
+        {currentPage === "home" ? (
+          <>
+            {/* Original Atmospheric Cosmic Violet Glow for Home Page */}
+            <div className="absolute -top-[10%] left-1/2 -translate-x-1/2 w-[1000px] h-[580px] bg-[#A955F7]/[0.14] blur-[170px] rounded-full" />
+            <div className="absolute top-[40%] -right-[15%] w-[600px] h-[600px] bg-blue-600/[0.06] blur-[200px] rounded-full" />
+            <div className="absolute top-[70%] -left-[15%] w-[600px] h-[600px] bg-[#A955F7]/[0.05] blur-[200px] rounded-full" />
+          </>
+        ) : (
+          <>
+            {/* Deep Clean Obsidian Accents for dedicated pages */}
+            <div className="absolute -top-[10%] left-1/2 -translate-x-1/2 w-[1000px] h-[580px] bg-[#A955F7]/[0.04] blur-[170px] rounded-full" />
+            <div className="absolute top-[40%] -right-[15%] w-[600px] h-[600px] bg-blue-600/[0.02] blur-[200px] rounded-full" />
+            <div className="absolute top-[70%] -left-[15%] w-[600px] h-[600px] bg-[#A955F7]/[0.02] blur-[200px] rounded-full" />
+          </>
+        )}
+      </div>
+
       {/* Global Sticky Navigation Bar with active tab indicators */}
       <Navbar
         activePage={currentPage}
         onNavigate={navigateTo}
         onOpenResume={() => setIsResumeOpen(true)}
-        onOpenContact={() => setIsContactOpen(true)}
+        onOpenContact={() => navigateTo("contact")}
       />
 
       {/* Main Dynamic View Content */}
@@ -98,7 +125,7 @@ export default function App() {
               {/* 1. Hero Section with Command Center Cockpit */}
               <HeroSection
                 onOpenResume={() => setIsResumeOpen(true)}
-                onOpenContact={() => setIsContactOpen(true)}
+                onOpenContact={() => navigateTo("contact")}
                 onNavigateToProjects={() => navigateTo("projects")}
               />
 
@@ -112,7 +139,8 @@ export default function App() {
 
               {/* 4. Technical Architecture & Live API Simulator */}
               <ArchitectureShowcaseSection
-                onOpenContact={() => setIsContactOpen(true)}
+                onOpenContact={() => navigateTo("contact")}
+                onOpenInterviewModal={() => setIsInterviewModalOpen(true)}
               />
 
               {/* 5. Recruiter FAQ */}
@@ -129,7 +157,7 @@ export default function App() {
               transition={{ duration: 0.28 }}
             >
               <ProjectsPage
-                onOpenContact={() => setIsContactOpen(true)}
+                onOpenContact={() => navigateTo("contact")}
                 onOpenResume={() => setIsResumeOpen(true)}
               />
             </motion.div>
@@ -144,8 +172,9 @@ export default function App() {
               transition={{ duration: 0.28 }}
             >
               <SkillsPage
-                onOpenContact={() => setIsContactOpen(true)}
+                onOpenContact={() => navigateTo("contact")}
                 onOpenResume={() => setIsResumeOpen(true)}
+                onOpenInterviewModal={() => setIsInterviewModalOpen(true)}
               />
             </motion.div>
           )}
@@ -159,7 +188,7 @@ export default function App() {
               transition={{ duration: 0.28 }}
             >
               <EducationPage
-                onOpenContact={() => setIsContactOpen(true)}
+                onOpenContact={() => navigateTo("contact")}
                 onOpenResume={() => setIsResumeOpen(true)}
               />
             </motion.div>
@@ -175,24 +204,37 @@ export default function App() {
             >
               <ContactPage
                 onOpenResume={() => setIsResumeOpen(true)}
-                onOpenContactModal={() => setIsContactOpen(true)}
+                onOpenContactModal={() => navigateTo("contact")}
               />
+            </motion.div>
+          )}
+
+          {currentPage === "admin" && (
+            <motion.div
+              key="admin"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.28 }}
+            >
+              <AdminPage onNavigateHome={() => navigateTo("home")} />
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Global Cosmic Arc Planet Footer (Journey visible ONLY on home page) */}
+      {/* Global Cosmic Arc Planet Footer (Clean footer without home journey block) */}
       <FooterSection
         onNavigate={navigateTo}
         onOpenResume={() => setIsResumeOpen(true)}
-        onOpenContact={() => setIsContactOpen(true)}
-        showJourney={currentPage === "home"}
+        onOpenContact={() => navigateTo("contact")}
+        showJourney={false}
       />
 
-      {/* Interactive Modals */}
+      {/* Interactive Modals - Always Rendered at Root Above Navbar (z-[100]) */}
       <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <InterviewScheduleModal isOpen={isInterviewModalOpen} onClose={() => setIsInterviewModalOpen(false)} />
     </main>
   );
 }

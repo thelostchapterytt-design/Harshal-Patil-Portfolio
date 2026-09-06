@@ -187,7 +187,7 @@ export default function HireMeSection({ onOpenContact, onOpenResume }: HireMeSec
                 INCLUDED CAPABILITIES
               </p>
               {[
-                "Immediate onboarding & active sprint participation",
+                "Rapid onboarding & active sprint participation",
                 "Writing clean REST APIs & unit tests",
                 "Frontend bug resolution, UI tweaks & responsive design",
                 "Strong Git branching, pull requests & documentation",

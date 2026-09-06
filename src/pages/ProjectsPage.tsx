@@ -24,7 +24,8 @@ import {
   Activity,
   Maximize2,
 } from "lucide-react";
-import { PROJECTS, Project } from "../data/portfolioData";
+import { Project } from "../data/portfolioData";
+import { usePortfolioProjects } from "../data/portfolioStore";
 
 interface ProjectsPageProps {
   onOpenContact: () => void;
@@ -142,20 +143,21 @@ const PROJECT_ARCHITECTURES: Record<
 };
 
 export default function ProjectsPage({ onOpenContact, onOpenResume }: ProjectsPageProps) {
+  const { projects } = usePortfolioProjects();
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [inspectProject, setInspectProject] = useState<Project | null>(null);
 
   const categories = [
-    { id: "all", label: "All Repositories", count: PROJECTS.length },
-    { id: "fullstack", label: "Full-Stack (Java & MERN)", count: 2 },
-    { id: "backend", label: "Spring Boot & Backend", count: 2 },
-    { id: "frontend", label: "React & Web Craft", count: 4 },
+    { id: "all", label: "All Repositories", count: projects.length },
+    { id: "fullstack", label: "Full-Stack (Java & MERN)", count: projects.filter(p => p.category.toLowerCase().includes("full") || p.id === "travely" || p.id === "syncwork").length || 2 },
+    { id: "backend", label: "Spring Boot & Backend", count: projects.filter(p => p.category.toLowerCase().includes("backend") || p.technologies.some(t => t.toLowerCase().includes("spring") || t.toLowerCase().includes("java"))).length || 2 },
+    { id: "frontend", label: "React & Web Craft", count: projects.filter(p => p.category.toLowerCase().includes("frontend") || p.technologies.some(t => t.toLowerCase().includes("react"))).length || 4 },
   ];
 
   // Filtering by category + search query
   const filteredProjects = useMemo(() => {
-    return PROJECTS.filter((project) => {
+    return projects.filter((project) => {
       // Category Match
       let matchesCategory = true;
       if (activeCategory === "fullstack") {
@@ -387,26 +389,27 @@ export default function ProjectsPage({ onOpenContact, onOpenResume }: ProjectsPa
   };
 
   return (
-    <div className="bg-black text-white antialiased min-h-screen pt-24 sm:pt-32 pb-20 px-3 sm:px-6 md:px-12 relative overflow-hidden">
-      {/* Background Cosmic Atmosphere (Identical to Home page) */}
+    <div className="bg-transparent text-white antialiased min-h-screen pt-24 sm:pt-32 pb-20 px-3 sm:px-6 md:px-12 relative overflow-hidden">
+      {/* Background Cosmic Atmosphere & Subtle Technical Grid */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-[-5%] left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[350px] bg-[#A955F7]/12 blur-[160px] rounded-full" />
-        <div className="absolute top-[35%] right-[-5%] w-[450px] h-[450px] bg-blue-600/5 blur-[150px] rounded-full" />
-        <div className="absolute bottom-[10%] left-[-5%] w-[450px] h-[450px] bg-[#A955F7]/8 blur-[140px] rounded-full" />
+        <div className="absolute inset-0 bg-dot-matrix opacity-15" />
+        <div className="absolute top-[-5%] left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[400px] bg-[#A955F7]/[0.05] blur-[170px] rounded-full" />
+        <div className="absolute top-[35%] right-[-5%] w-[500px] h-[500px] bg-blue-600/[0.02] blur-[180px] rounded-full" />
+        <div className="absolute bottom-[10%] left-[-5%] w-[450px] h-[450px] bg-[#A955F7]/[0.03] blur-[180px] rounded-full" />
       </div>
 
       <div className="max-w-[1350px] mx-auto relative z-10">
         {/* 1. Header (Centered, Clean & Sophisticated, exactly matching Home page theme) */}
         <header className="mb-8 sm:mb-12 text-center max-w-3xl mx-auto px-2">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="text-xs text-[#A955F7] font-mono font-bold">02.</span>
-            <span className="text-white/20">&mdash;</span>
-            <span className="text-xs text-[#A955F7] font-mono tracking-[2px] uppercase font-bold">
+          <div className="flex items-center justify-center flex-wrap gap-x-2 gap-y-1 mb-3">
+            <span className="text-xs text-[#A955F7] font-mono font-bold shrink-0">02.</span>
+            <span className="text-white/20 shrink-0">&mdash;</span>
+            <span className="text-xs text-[#A955F7] font-mono tracking-wider sm:tracking-[2px] uppercase font-bold text-center">
               Production Repositories &amp; Deployments
             </span>
           </div>
 
-          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.15] tracking-tight mb-4">
+          <h1 className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.2] sm:leading-[1.15] tracking-tight mb-3 sm:mb-4">
             Engineered Systems &amp;{" "}
             <span className="bg-gradient-to-r from-white via-white/90 to-[#A955F7] bg-clip-text text-transparent">
               Full-Stack Code.
@@ -418,7 +421,7 @@ export default function ProjectsPage({ onOpenContact, onOpenResume }: ProjectsPa
           </p>
 
           {/* Quick Metrics Bar across all devices */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-7 max-w-2xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mt-6 sm:mt-7 max-w-2xl mx-auto">
             <div className="p-2.5 sm:p-3 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-md">
               <span className="block text-lg sm:text-xl font-bold font-mono text-white">06</span>
               <span className="text-[10px] sm:text-[11px] font-mono text-white/50 uppercase">Public Repos</span>
@@ -448,15 +451,15 @@ export default function ProjectsPage({ onOpenContact, onOpenResume }: ProjectsPa
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap shrink-0 ${
+                  className={`px-3.5 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 cursor-pointer flex items-center gap-2 whitespace-nowrap shrink-0 ${
                     isActive
-                      ? "bg-[#A955F7] text-white shadow-[0_0_20px_rgba(168,85,247,0.35)] font-semibold"
+                      ? "bg-[#A955F7] text-white shadow-[0_0_20px_rgba(168,85,247,0.35)] font-semibold scale-[1.02]"
                       : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/5"
                   }`}
                 >
                   <span>{cat.label}</span>
                   <span
-                    className={`text-[10.5px] px-1.5 py-0.5 rounded-full font-mono ${
+                    className={`text-[10.5px] px-1.5 py-0.5 rounded-full font-mono transition-colors ${
                       isActive ? "bg-white/20 text-white" : "bg-white/10 text-white/50"
                     }`}
                   >
@@ -488,34 +491,42 @@ export default function ProjectsPage({ onOpenContact, onOpenResume }: ProjectsPa
           </div>
         </div>
 
-        {/* 3. Projects Grid (Exact same styling as Home page's #141414 dark obsidian cards with visual previews) */}
-        {filteredProjects.length === 0 ? (
-          <div className="py-16 text-center bg-[#141414] border border-white/10 rounded-[28px] max-w-xl mx-auto p-8">
-            <Layers size={36} className="mx-auto text-white/30 mb-3" />
-            <h3 className="text-lg font-bold text-white mb-1">No matching projects found</h3>
-            <p className="text-xs text-white/50 mb-5">
-              Try searching with another keyword or reset the filter.
-            </p>
-            <button
-              onClick={() => {
-                setActiveCategory("all");
-                setSearchQuery("");
-              }}
-              className="px-5 py-2.5 rounded-full bg-[#A955F7] text-white text-xs font-semibold cursor-pointer shadow-md"
-            >
-              Reset Filters
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 mb-16">
-            {filteredProjects.map((project, idx) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: idx * 0.05 }}
-                className="bg-[#141414] border border-white/10 rounded-2xl sm:rounded-[28px] p-5 sm:p-6 flex flex-col justify-between overflow-hidden relative group hover:border-[#A955F7]/40 transition-all duration-300 shadow-xl hover:shadow-[0_15px_40px_rgba(168,85,247,0.14)] hover:-translate-y-1"
-              >
+        {/* 3. Projects Grid with Smooth AnimatePresence Switching */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory + (searchQuery ? `_${searchQuery}` : "")}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+          >
+            {filteredProjects.length === 0 ? (
+              <div className="py-16 text-center bg-[#141414] border border-white/10 rounded-[28px] max-w-xl mx-auto p-8">
+                <Layers size={36} className="mx-auto text-white/30 mb-3" />
+                <h3 className="text-lg font-bold text-white mb-1">No matching projects found</h3>
+                <p className="text-xs text-white/50 mb-5">
+                  Try searching with another keyword or reset the filter.
+                </p>
+                <button
+                  onClick={() => {
+                    setActiveCategory("all");
+                    setSearchQuery("");
+                  }}
+                  className="px-5 py-2.5 rounded-full bg-[#A955F7] text-white text-xs font-semibold cursor-pointer shadow-md"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 mb-16">
+                {filteredProjects.map((project, idx) => (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: idx * 0.04 }}
+                    className="bg-[#141414] border border-white/10 rounded-2xl sm:rounded-[28px] p-5 sm:p-6 flex flex-col justify-between overflow-hidden relative group hover:border-[#A955F7]/40 transition-all duration-300 shadow-xl hover:shadow-[0_15px_40px_rgba(168,85,247,0.14)] hover:-translate-y-1"
+                  >
                 <div>
                   {/* Browser / App Window Chrome with macOS traffic lights */}
                   <div className="flex items-center justify-between pb-3 mb-3.5 border-b border-white/5">
@@ -641,6 +652,8 @@ export default function ProjectsPage({ onOpenContact, onOpenResume }: ProjectsPa
             ))}
           </div>
         )}
+          </motion.div>
+        </AnimatePresence>
 
         {/* 4. Recruiter & Collaboration Callout (Aligned with home page style) */}
         <div className="p-6 sm:p-10 rounded-2xl sm:rounded-[28px] bg-gradient-to-r from-white/[0.03] via-[#A955F7]/10 to-white/[0.03] border border-[#A955F7]/30 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
